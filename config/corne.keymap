@@ -47,20 +47,55 @@
         };
     };
 
+    // Automatically activates Layer 3 (Adjust) when Layer 1 and 2 are held together
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <1 2>;
+            then-layer = <3>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
+        // Layer 0: Base Typing Layer
         default_layer {
             bindings = <
-// -----------------------------------------------------------------------------------------
-// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
-// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
             &kp TAB   &kp Q         &kp W         &kp E          &kp R          &kp T             &kp Y        &kp U          &kp I          &kp O         &kp P            &kp BSPC
             &kp LCTRL &hml LGUI A   &hml LALT S   &hml LSFT D    &hml LCTL F    &kp G             &kp H        &hmr RCTL J    &hmr RSFT K    &hmr RALT L   &hmr RGUI SEMI   &kp SQT
             &kp LSHFT &kp Z         &kp X         &kp C          &kp V          &kp B             &kp N        &kp M          &kp COMMA      &kp DOT       &kp FSLH         &kp ESC
                                                   &kp LGUI       &mo 1          &kp SPACE         &kp ENTER    &mo 2          &kp RALT
+            >;
+        };
+
+        // Layer 1: Numbers & Vim Navigation (Left Thumb)
+        lower_layer {
+            bindings = <
+            &kp GRAVE &kp N1        &kp N2        &kp N3         &kp N4         &kp N5            &kp N6       &kp N7         &kp N8         &kp N9        &kp N0           &kp DEL
+            &trans    &trans        &trans        &trans         &trans         &trans            &kp LEFT     &kp DOWN       &kp UP         &kp RIGHT     &trans           &trans
+            &trans    &trans        &trans        &trans         &trans         &trans            &kp HOME     &kp PG_DN      &kp PG_UP      &kp END       &trans           &trans
+                                                  &trans         &trans         &trans            &trans       &trans         &trans
+            >;
+        };
+
+        // Layer 2: Code Symbols & Brackets (Right Thumb)
+        raise_layer {
+            bindings = <
+            &kp TILDE &kp EXCL      &kp AT        &kp HASH       &kp DLLR       &kp PRCNT         &kp CARET    &kp AMPS       &kp ASTRK      &kp LPAR      &kp RPAR         &kp DEL
+            &trans    &kp LBKT      &kp RBKT      &kp LBRC       &kp RBRC       &kp BSLH          &kp MINUS    &kp EQUAL      &kp UNDER      &kp PLUS      &kp PIPE         &trans
+            &trans    &trans        &trans        &trans         &trans         &trans            &trans       &trans         &trans         &trans        &trans           &trans
+                                                  &trans         &trans         &trans            &trans       &trans         &trans
+            >;
+        };
+
+        // Layer 3: System, Bluetooth, & Media (Both Thumbs Held)
+        adjust_layer {
+            bindings = <
+            &bootloader &trans      &trans        &trans         &trans         &trans            &trans       &trans         &trans         &trans        &trans           &bootloader
+            &trans      &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2   &bt BT_SEL 3   &trans            &trans       &kp C_VOL_DN   &kp C_VOL_UP   &kp C_MUTE    &trans           &trans
+            &trans      &trans        &trans        &trans         &trans         &bt BT_CLR        &trans       &kp C_PREV     &kp C_NEXT     &kp C_PP      &trans           &trans
+                                                      &trans         &trans         &trans            &trans       &trans         &trans
             >;
         };
     };
